@@ -5,6 +5,7 @@ public class LabelsGenerator{
 
   public static void main(String[] args){
   System.out.println("hello world!");
+	System.out.println("changes from little server!");
 
   LabelsGenerator l = new LabelsGenerator();     //connect to add during initialization
   String label = l.generateLabel();
