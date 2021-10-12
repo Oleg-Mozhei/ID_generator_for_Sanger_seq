@@ -10,7 +10,15 @@ public class LabelsGenerator{
 
   public LabelsGenerator() throws SQLException, IOException{
   	conn = getConnection();
- 
+  	String query = "SELECT * FROM finished";
+	Statement statement = conn.createStatement();
+    ResultSet rs = statement.executeQuery(query);
+
+	while (rs.next()) {
+    String id = rs.getString(1);
+    System.out.println("id: " + id);
+ 	}
+ 	conn.close();
     }
 
   public static void main(String[] args){
