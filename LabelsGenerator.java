@@ -7,17 +7,47 @@ import java.util.*;
 public class LabelsGenerator{
   static Random r = new Random();
   final Connection conn;
+  ArrayList<String> labels = new ArrayList<>();
 
   public LabelsGenerator() throws SQLException, IOException{
   	conn = getConnection();
+
   	String query = "SELECT * FROM finished";
 	Statement statement = conn.createStatement();
     ResultSet rs = statement.executeQuery(query);
-
 	while (rs.next()) {
     String id = rs.getString(1);
-    System.out.println("id: " + id);
+    labels.add(id);
+    //System.out.println("id from finished table: " + id);
  	}
+
+ 	query = "SELECT * FROM processing";
+	statement = conn.createStatement();
+    rs = statement.executeQuery(query);
+	while (rs.next()) {
+    String id = rs.getString(1);
+    labels.add(id);
+    //System.out.println("id from processing table: " + id);
+ 	}
+
+ 	query = "SELECT * FROM queue";
+	statement = conn.createStatement();
+    rs = statement.executeQuery(query);
+	while (rs.next()) {
+    String id = rs.getString(1);
+    labels.add(id);
+    //System.out.println("id from queue table: " + id);
+ 	}
+
+ 	query = "SELECT * FROM prepaid";
+	statement = conn.createStatement();
+    rs = statement.executeQuery(query);
+	while (rs.next()) {
+    String id = rs.getString(1);
+    labels.add(id);
+    //System.out.println("id from prepaid table: " + id);
+ 	}
+
  	conn.close();
     }
 
@@ -25,20 +55,26 @@ public class LabelsGenerator{
   	System.out.println("If you get error, try to run java -cp \".:/usr/share/java/*\" LabelsGenerator");
   	try {
   LabelsGenerator generator = new LabelsGenerator();
-
   System.out.println("hello world!");
 
-  String result = "";
-  for (int i = 0; i < 7; i++){
-  	result+=getOneSymbol();
-  }
+  generator.generateUniqueLabels();
 
-  System.out.println(result);
 
-  //LU8WXNG
 } catch (SQLException | IOException e){
 	e.printStackTrace();
 }
+  }
+
+  public void generateUniqueLabels(){
+  	  int labels_to_generate_quantity = 5;
+
+  for (int i = 0; i < labels_to_generate_quantity; i++){
+  	String label = "EMHAG0Q";
+  	while(labels.contains(label)){
+  		label = getLabel();
+  	}
+  	System.out.println("Generated unique label: " + label);
+  }
   }
 
 
@@ -49,14 +85,22 @@ public class LabelsGenerator{
       a = r.nextInt(35);    //0-34
       a = a + 49;           //49-83
       if (a > 57){a+=7;}    //49-57 65-90
-      if (a!= 73 || a!=76 || a!= 79){
+      if (a == 73 || a == 76 || a == 79){
+      } else {
+      	//System.out.println(a);
         break;
       }
     }
     //System.out.println("I got " + a);
     return ((char) a);
+  }
 
-
+  public static String getLabel(){
+  	String result = "";
+  	for (int i = 0; i < 7; i++){
+  		result+=getOneSymbol();
+  	}
+  	return result;
   }
 
 
