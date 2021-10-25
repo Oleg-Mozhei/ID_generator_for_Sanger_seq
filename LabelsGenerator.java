@@ -27,7 +27,8 @@ public class LabelsGenerator{
     for (int i = 0; i < labels.size(); i++){
       String query = "INSERT INTO prepaid (label_id, purchase_date, purpose) VALUES ('" + labels.get(i) + "', CURDATE(), '" + purpose + "');";
       Statement statement = conn.createStatement();
-      ResultSet rs = statement.executeQuery(query);
+      statement.executeUpdate(query);
+      System.out.println(query);
     }
 
     conn.close();
