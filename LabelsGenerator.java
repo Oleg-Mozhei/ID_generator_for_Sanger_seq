@@ -14,7 +14,7 @@ public class LabelsGenerator{
   	try {
       LabelsGenerator generator = new LabelsGenerator();
       System.out.println("hello world!");
-      ArrayList<String> newLabels = generator.generateUniqueLabels(5);
+      ArrayList<String> newLabels = generator.generateUniqueLabels(100);
       generator.add_labels_to_prepaid(newLabels, "testing");
       } catch (SQLException | IOException e){
 	    e.printStackTrace();
